@@ -1,0 +1,46 @@
+[
+  {
+    "ParameterKey": "EnvironmentName",
+    "ParameterValue": "landing-zone"
+  },
+  {
+    "ParameterKey": "SecurityAccountId",
+    "ParameterValue": "REPLACE_WITH_SECURITY_ACCOUNT_ID"
+  },
+  {
+    "ParameterKey": "LogArchiveBucketName",
+    "ParameterValue": "REPLACE_WITH_LOG_ARCHIVE_BUCKET"
+  },
+  {
+    "ParameterKey": "GuardDutyFindingPublishFrequency",
+    "ParameterValue": "FIFTEEN_MINUTES"
+  },
+  {
+    "ParameterKey": "EnableS3Protection",
+    "ParameterValue": "true"
+  },
+  {
+    "ParameterKey": "EnableEKSProtection",
+    "ParameterValue": "true"
+  },
+  {
+    "ParameterKey": "EnableMalwareProtection",
+    "ParameterValue": "true"
+  },
+  {
+    "ParameterKey": "ConfigDeliveryFrequency",
+    "ParameterValue": "TwentyFour_Hours"
+  },
+  {
+    "ParameterKey": "EnableConfigRecorder",
+    "ParameterValue": "true"
+  },
+  {
+    "ParameterKey": "EnableCISBenchmark",
+    "ParameterValue": "true"
+  },
+  {
+    "ParameterKey": "EnableAWSFoundationalBestPractices",
+    "ParameterValue": "true"
+  }
+]

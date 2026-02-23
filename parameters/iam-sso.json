@@ -1,0 +1,34 @@
+[
+  {
+    "ParameterKey": "EnvironmentName",
+    "ParameterValue": "landing-zone"
+  },
+  {
+    "ParameterKey": "SSOInstanceArn",
+    "ParameterValue": "arn:aws:sso:::instance/ssoins-REPLACE_ME"
+  },
+  {
+    "ParameterKey": "IdentityStoreId",
+    "ParameterValue": "d-REPLACE_ME"
+  },
+  {
+    "ParameterKey": "ManagementAccountId",
+    "ParameterValue": "REPLACE_WITH_MGMT_ACCOUNT_ID"
+  },
+  {
+    "ParameterKey": "LogArchiveAccountId",
+    "ParameterValue": "REPLACE_WITH_LOG_ARCHIVE_ACCOUNT_ID"
+  },
+  {
+    "ParameterKey": "SecurityToolingAccountId",
+    "ParameterValue": "REPLACE_WITH_SECURITY_ACCOUNT_ID"
+  },
+  {
+    "ParameterKey": "AdminSessionDuration",
+    "ParameterValue": "PT4H"
+  },
+  {
+    "ParameterKey": "ReadOnlySessionDuration",
+    "ParameterValue": "PT8H"
+  }
+]
