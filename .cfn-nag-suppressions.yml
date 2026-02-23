@@ -1,0 +1,48 @@
+# cfn-nag Suppression Rules
+# ============================================================
+# These suppressions document conscious security decisions for
+# known cfn-nag warnings that are acceptable in this context.
+#
+# Reference: https://github.com/stelligent/cfn_nag#suppression-via-metadata
+
+RulesToSuppress:
+  # W12 - IAM wildcard resource
+  # Acceptable for VPC Flow Log role: CloudWatch Logs requires wildcard on
+  # log group ARNs since the group is created dynamically at runtime.
+  - id: W12
+    reason: >
+      VPC Flow Log IAM role requires wildcard on CloudWatch Logs resources
+      as the log group ARN is not known until runtime. Scope is limited to
+      logs:Create*, logs:Put*, and logs:Describe* actions only.
+
+  # W58 - Lambda function missing explicit permissions for CloudWatch Logs
+  # Not applicable here; suppressed to avoid false positives on custom resources.
+  - id: W58
+    reason: No Lambda functions are used in this stack.
+
+  # W28 - Explicit resource name on IAM role
+  # Named roles are intentional — names are predictable for auditability
+  # and cross-account trust policies in the landing zone context.
+  - id: W28
+    reason: >
+      Explicit role names are required for cross-account trust policies and
+      to ensure idempotent deployments. Names are environment-prefixed to
+      avoid collisions.
+
+  # F3 - IAM wildcard action
+  # The KMS key policy root statement intentionally grants kms:* to the
+  # account root to prevent key lockout — this is AWS-recommended practice.
+  - id: F3
+    reason: >
+      KMS key root policy uses kms:* for the account root principal to
+      prevent key lockout. This is explicitly recommended by AWS KMS
+      documentation for customer-managed keys.
+
+  # W11 - IAM wildcard resource on specific actions
+  # Config recorder role uses AWS managed policy AWS_ConfigRole which
+  # requires broad resource scope by design.
+  - id: W11
+    reason: >
+      AWS Config managed policy (AWS_ConfigRole) requires broad resource
+      scope to record all supported resource types. This is the
+      AWS-recommended role for Config recorders.
