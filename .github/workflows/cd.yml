@@ -1,0 +1,41 @@
+name: Continuous Deployment
+
+on:
+  push:
+    branches: ["main"]
+    paths:
+      - "templates/**.yaml"
+      - "parameters/**.json"
+      - "scripts/deploy.sh"
+
+permissions:
+  id-token: write   # This is required for requesting the JWT
+  contents: read    # This is required for actions/checkout
+
+env:
+  AWS_REGION: us-east-1
+  # REPLACE_ME: Update this role ARN to your configured GitHub OIDC identity provider role
+  AWS_ROLE_ARN: arn:aws:iam::111122223333:role/github-actions-landing-zone-role
+  ENV_NAME: landing-zone
+
+jobs:
+  deploy:
+    name: Deploy Landing Zone
+    runs-on: ubuntu-latest
+    if: github.repository == 'YOUR_USERNAME/aws-landing-zone' # Optional safety check
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Configure AWS Credentials using OIDC
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ env.AWS_ROLE_ARN }}
+          aws-region: ${{ env.AWS_REGION }}
+          role-session-name: GitHubActionsDeploySession
+
+      - name: Deploy Stacks
+        run: |
+          chmod +x scripts/deploy.sh
+          ./scripts/deploy.sh deploy

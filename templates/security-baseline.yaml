@@ -197,6 +197,11 @@ Resources:
         MalwareProtection:
           ScanEc2InstanceWithFindings:
             EbsVolumes: !Equals [!Ref EnableMalwareProtection, "true"]
+      Features:
+        - Name: RDS_LOGIN_EVENTS
+          Status: ENABLED
+        - Name: LAMBDA_NETWORK_LOGS
+          Status: ENABLED
       Tags:
         - Key: Environment
           Value: !Ref EnvironmentName
@@ -242,13 +247,13 @@ Resources:
         Environment: !Ref EnvironmentName
         ManagedBy: CloudFormation
 
-  # CIS AWS Foundations Benchmark v1.4
+  # CIS AWS Foundations Benchmark v3.0
   CISBenchmarkStandard:
     Type: AWS::SecurityHub::Standard
     Condition: EnableCIS
     DependsOn: SecurityHub
     Properties:
-      StandardsArn: !Sub "arn:aws:securityhub:${AWS::Region}::standards/cis-aws-foundations-benchmark/v/1.4.0"
+      StandardsArn: !Sub "arn:aws:securityhub:${AWS::Region}::standards/cis-aws-foundations-benchmark/v/3.0.0"
 
   # AWS Foundational Security Best Practices
   AWSFoundationalBPStandard:

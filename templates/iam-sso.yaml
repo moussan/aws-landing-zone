@@ -23,6 +23,7 @@ Metadata:
         Parameters:
           - AdminSessionDuration
           - ReadOnlySessionDuration
+          - PermissionsBoundaryArn
 
 Parameters:
   EnvironmentName:
@@ -78,6 +79,14 @@ Parameters:
       - "PT8H"
       - "PT12H"
 
+  PermissionsBoundaryArn:
+    Type: String
+    Default: ""
+    Description: Optional ARN of a managed policy to use as a permissions boundary for all permission sets.
+
+Conditions:
+  HasPermissionsBoundary: !Not [!Equals [!Ref PermissionsBoundaryArn, ""]]
+
 Resources:
   # ─── PERMISSION SETS ──────────────────────────────────────────────────────
 
@@ -91,6 +100,10 @@ Resources:
       ManagedPolicies:
         - arn:aws:iam::aws:policy/AdministratorAccess
       SessionDuration: !Ref AdminSessionDuration
+      PermissionsBoundary: !If
+        - HasPermissionsBoundary
+        - ManagedPolicyArn: !Ref PermissionsBoundaryArn
+        - !Ref "AWS::NoValue"
       Tags:
         - Key: Environment
           Value: !Ref EnvironmentName
@@ -107,6 +120,10 @@ Resources:
       ManagedPolicies:
         - arn:aws:iam::aws:policy/ReadOnlyAccess
       SessionDuration: !Ref ReadOnlySessionDuration
+      PermissionsBoundary: !If
+        - HasPermissionsBoundary
+        - ManagedPolicyArn: !Ref PermissionsBoundaryArn
+        - !Ref "AWS::NoValue"
       Tags:
         - Key: Environment
           Value: !Ref EnvironmentName
@@ -153,6 +170,10 @@ Resources:
               - cloudtrail:LookupEvents
             Resource: "*"
       SessionDuration: !Ref AdminSessionDuration
+      PermissionsBoundary: !If
+        - HasPermissionsBoundary
+        - ManagedPolicyArn: !Ref PermissionsBoundaryArn
+        - !Ref "AWS::NoValue"
       Tags:
         - Key: Environment
           Value: !Ref EnvironmentName
@@ -182,6 +203,10 @@ Resources:
               - ec2:*VpnGateway*
             Resource: "*"
       SessionDuration: !Ref AdminSessionDuration
+      PermissionsBoundary: !If
+        - HasPermissionsBoundary
+        - ManagedPolicyArn: !Ref PermissionsBoundaryArn
+        - !Ref "AWS::NoValue"
       Tags:
         - Key: Environment
           Value: !Ref EnvironmentName
@@ -199,6 +224,10 @@ Resources:
         - arn:aws:iam::aws:policy/AWSBillingReadOnlyAccess
         - arn:aws:iam::aws:policy/job-function/Billing
       SessionDuration: !Ref ReadOnlySessionDuration
+      PermissionsBoundary: !If
+        - HasPermissionsBoundary
+        - ManagedPolicyArn: !Ref PermissionsBoundaryArn
+        - !Ref "AWS::NoValue"
       Tags:
         - Key: Environment
           Value: !Ref EnvironmentName
